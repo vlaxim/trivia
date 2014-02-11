@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".GameActivity" >
+
+  <ProgressBar
+        android:id="@+id/pBAsync"
+        style="@style/CustomProgressBarHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_margin="10dp"
+        android:max="15"
+        android:layout_height="wrap_content" />
+
+  <TextView
+      android:id="@+id/textViewQuestion"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignLeft="@+id/pBAsync"
+      android:layout_below="@+id/pBAsync"
+      android:layout_marginTop="18dp"
+      android:text="TextView" />
+
+  <EditText
+      android:id="@+id/editTextAnswer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignLeft="@+id/textViewQuestion"
+      android:layout_below="@+id/textViewQuestion"
+      android:layout_marginTop="50dp"
+      android:ems="10" />
+
+  <Button
+      android:id="@+id/buttonValidate"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:text="Valider la réponse" />
+
+</RelativeLayout>

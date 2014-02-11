@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Trivia</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- LoginActivity -->
+    <string name="description_logo">Logo application</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="connexion">Connexion</string>
+    <string name="subscribe">Je m\'inscrit</string>
+    <string name="title_activity_subscribe">SubscribeActivity</string>
+
+    <!-- SubscribeActivity -->
+    <string name="inscription">Inscription</string>
+    <string name="lastName">Nom</string>
+    <string name="firstName">Prenom</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="mail">Email</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string-array name="items">
+        <item>Jouer</item>
+        <item>Mes stats</item>
+        <item>Les stats</item>
+        <item>Règles du jeu</item>
+        <item>A propos</item>
+    </string-array>
+
+    <string name="play">Jouer</string>
+    <string name="my_stats">Mes stats</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="title_activity_rebours">ReboursActivity</string>
+    <string name="title_activity_game">GameActivity</string>
+    
+    
+    
+    <!-- Questions / Réponses -->
+    <string name="question1">Sur quelle ville du Japon fût larguée la seconde bombe atomique Fat Man le 9 Août 1945</string>
+    <string name="answer1">Nagasaki</string>
+    <string name="question2">Quel terme désigne une personne ne voyant que d\'un oeil (ormis cyclope)</string>
+    <string name="answer2">Borgne</string>
+    <string name="question3">Quelle est la couleur du deuil dans les pays musulmans ?</string>
+    <string name="answer3">Blanc</string>
+    <string name="question4">Quel mot afrikaans signifie "séparation" ?</string>
+    <string name="answer4">Apartheid</string>
+    <string name="question5">Quel est ce jeu collectif pratiqué dès le XIIe siècle, ancêtre du rugby</string>
+	<string name="answer5">La soule</string>
+</resources>
