@@ -99,7 +99,8 @@ public class GameActivity extends Activity {
 		getMenuInflater().inflate(R.menu.game, menu);
 		return true;
 	}
-
+	
+	//classe asynchrone qui affiche la progressbar chronomètre
 	private class ProgressBarCompteur extends AsyncTask<Void, Integer, Void> {
 		
 		@Override
