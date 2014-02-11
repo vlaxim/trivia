@@ -49,6 +49,7 @@ public class GameActivity extends Activity {
 		txtQuestion = (TextView) findViewById(R.id.textViewQuestion);
 		editAnswer = (EditText) findViewById(R.id.editTextAnswer);
 		validate = (Button) findViewById(R.id.buttonValidate);
+		final ProgressBarCompteur progressTask = new ProgressBarCompteur();
 
 		// On récupère la base de données
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(GameActivity.this,
@@ -76,6 +77,19 @@ public class GameActivity extends Activity {
 		mProgressBar = (ProgressBar) findViewById(R.id.pBAsync);
 		ProgressBarCompteur timer = new ProgressBarCompteur();
 		timer.execute();
+		
+		validate.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String answer = listQuestionGame.get(0).getAnswer();
+				String answerPlayer = editAnswer.getText().toString();
+				if (answer.equals(answerPlayer)) {
+					Toast.makeText(GameActivity.this, "Bonne réponse", Toast.LENGTH_SHORT).show();
+					progressTask.cancel(true);
+				}
+			}
+		});
 
 	}
 
@@ -97,18 +111,8 @@ public class GameActivity extends Activity {
 		protected void onProgressUpdate(Integer... values) {
 			super.onProgressUpdate(values);
 			mProgressBar.setProgress(values[0]);
-			
-			validate.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					String answer = listQuestionGame.get(0).getAnswer();
-					String answerPlayer = editAnswer.getText().toString();
-					if (answer.equals(answerPlayer)) {
-						Toast.makeText(GameActivity.this, "Bonne réponse", Toast.LENGTH_SHORT).show();
-					}
-				}
-			});
+			//ancienne place du validate et listener
+
 		}
 
 		@Override
@@ -125,5 +129,13 @@ public class GameActivity extends Activity {
 			Toast.makeText(GameActivity.this, "temps écoulé",
 					Toast.LENGTH_SHORT).show();
 		}
+		
+        @Override
+        protected void onCancelled(){
+            super.onCancelled();
+            validate.setEnabled(false);
+            validate.setText("Bonne Réponse");
+            // traitement à effectuer si la tâche est annulée
+        }
 	}
 }
