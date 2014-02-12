@@ -1,10 +1,10 @@
 package com.vlaxim.dao;
 
 import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
@@ -50,7 +50,7 @@ public class ScoreDao extends AbstractDao<Score, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'SCORE' (" + //
-                "'_id' INTEGER PRIMARY KEY ," + // 0: id
+                "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "'SCORE' INTEGER," + // 1: score
                 "'GAME_ID' INTEGER NOT NULL ," + // 2: gameId
                 "'USER_ID' INTEGER NOT NULL );"); // 3: userId

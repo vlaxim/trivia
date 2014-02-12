@@ -3,6 +3,7 @@ package com.vlaxim.dao;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
@@ -46,7 +47,7 @@ public class UserDao extends AbstractDao<User, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'USER' (" + //
-                "'_id' INTEGER PRIMARY KEY ," + // 0: id
+                "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "'FIRST_NAME' TEXT," + // 1: firstName
                 "'LAST_NAME' TEXT," + // 2: lastName
                 "'PSEUDO' TEXT," + // 3: pseudo
