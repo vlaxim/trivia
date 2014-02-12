@@ -44,8 +44,8 @@ public class GameActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
-		
-		//Récupération des éléments du layout
+
+		// Récupération des éléments du layout
 		txtQuestion = (TextView) findViewById(R.id.textViewQuestion);
 		editAnswer = (EditText) findViewById(R.id.editTextAnswer);
 		validate = (Button) findViewById(R.id.buttonValidate);
@@ -72,10 +72,22 @@ public class GameActivity extends Activity {
 			listAllQuestion.remove(nombreAleatoire);
 		}
 
-		
 		mProgressBar = (ProgressBar) findViewById(R.id.pBAsync);
-		ProgressBarCompteur timer = new ProgressBarCompteur();
+		final ProgressBarCompteur timer = new ProgressBarCompteur();
 		timer.execute();
+		
+		validate.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String answer = listQuestionGame.get(0).getAnswer();
+				String answerPlayer = editAnswer.getText().toString();
+				if (answer.equals(answerPlayer)) {
+					Toast.makeText(GameActivity.this, "Bonne réponse", Toast.LENGTH_SHORT).show();
+					timer.cancel(true);
+				}
+			}
+		});
 
 	}
 
@@ -85,9 +97,11 @@ public class GameActivity extends Activity {
 		getMenuInflater().inflate(R.menu.game, menu);
 		return true;
 	}
-
+	
+	//classe asynchrone qui affiche la progressbar chronomètre
 	private class ProgressBarCompteur extends AsyncTask<Void, Integer, Void> {
-		
+	
+	//classe asynchrone qui affiche la progressbar chronomètre
 		@Override
 		protected void onPreExecute() {
 			txtQuestion.setText(listQuestionGame.get(0).getQuestion());
@@ -97,25 +111,19 @@ public class GameActivity extends Activity {
 		protected void onProgressUpdate(Integer... values) {
 			super.onProgressUpdate(values);
 			mProgressBar.setProgress(values[0]);
-			
-			validate.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					String answer = listQuestionGame.get(0).getAnswer();
-					String answerPlayer = editAnswer.getText().toString();
-					if (answer.equals(answerPlayer)) {
-						Toast.makeText(GameActivity.this, "Bonne réponse", Toast.LENGTH_SHORT).show();
-					}
-				}
-			});
+			//ancienne place du validate et listener
+
 		}
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			for (int i = 1; i <= 15; i++) {
+				if (isCancelled()==true){
+					break;
+				}	
 				SystemClock.sleep(1000);
 				publishProgress(i);
+				
 			}
 			return null;
 		}
@@ -125,5 +133,13 @@ public class GameActivity extends Activity {
 			Toast.makeText(GameActivity.this, "temps écoulé",
 					Toast.LENGTH_SHORT).show();
 		}
+		
+        @Override
+        protected void onCancelled(){
+            super.onCancelled();
+            validate.setEnabled(false);
+            validate.setText("Bonne Réponse");
+            // traitement à effectuer si la tâche est annulée
+        }
 	}
 }
