@@ -85,14 +85,11 @@ public class GameActivity extends Activity {
 				String answerPlayer = editAnswer.getText().toString();
 				if (answer.equals(answerPlayer)) {
 					Toast.makeText(GameActivity.this, "Bonne réponse", Toast.LENGTH_SHORT).show();
-<<<<<<< HEAD
+
 					timer.cancel(true);
-=======
-					progressTask.cancel(true);
->>>>>>> 6e661be88b1358fe87171518128457677a13662d
+
 				}
-			}
-		});
+			}});
 
 	}
 
