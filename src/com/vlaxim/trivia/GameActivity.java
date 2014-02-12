@@ -147,6 +147,7 @@ public class GameActivity extends Activity {
             super.onCancelled();
             validate.setEnabled(false);
             validate.setText("Bonne Réponse");
+            setContentView(R.layout.activity_game);
             // traitement à effectuer si la tâche est annulée
         }
 	}
