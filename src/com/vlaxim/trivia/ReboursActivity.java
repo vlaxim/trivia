@@ -5,6 +5,9 @@
  */
 package com.vlaxim.trivia;
 
+
+import android.media.MediaPlayer;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -64,13 +67,22 @@ public class ReboursActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
-				SystemClock.sleep(1000);
-				publishProgress(3);
-				SystemClock.sleep(1000);
-				publishProgress(2);
-				SystemClock.sleep(1000);
-				publishProgress(1);
-			return null;
+
+			MediaPlayer three = MediaPlayer.create(ReboursActivity.this, R.raw.three);
+			three.start();
+			SystemClock.sleep(1000);
+			publishProgress(3);
+			MediaPlayer two = MediaPlayer.create(ReboursActivity.this, R.raw.two);
+			two.start();
+			SystemClock.sleep(1000);
+			publishProgress(2);
+			MediaPlayer one = MediaPlayer.create(ReboursActivity.this, R.raw.one);
+			one.start();
+			SystemClock.sleep(1000);
+			publishProgress(1);
+			MediaPlayer go = MediaPlayer.create(ReboursActivity.this, R.raw.go);
+			go.start();
+		return null;
 		}
 
 		@Override
