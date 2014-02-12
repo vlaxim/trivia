@@ -90,6 +90,7 @@ public class ReboursActivity extends Activity {
 			//Lorsque le compte à rebours est terminé on lance le jeu
 			Intent intentGame = new Intent(ReboursActivity.this, GameActivity.class);
 			startActivity(intentGame);
+			finish();
 		}
 	}
  

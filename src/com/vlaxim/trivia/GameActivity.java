@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
@@ -31,11 +32,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GameActivity extends Activity {
+	
+	
+
+
+
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog box;
+	      box = new Dialog(this);
+	      box.setTitle("Je viens tout juste de naître.");
+	      return box;
+	}
+
 
 	private ProgressBar mProgressBar;
 	private TextView txtQuestion;
 	private EditText editAnswer;
 	private Button validate;
+	private ProgressBar progressTransition;
+	
 	
 	private List<Question> listAllQuestion;
 	private List<Question> listQuestionGame;
@@ -44,17 +61,29 @@ public class GameActivity extends Activity {
 	private DaoMaster daoMaster;
 	private DaoSession daoSession;
 	private QuestionDao questionDao;
+	private int score;
+	private Question question;
+	
+	@Override
+	protected void onStop() {
+		
+		super.onStop();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
-
+		
 		// Récupération des éléments du layout
 		txtQuestion = (TextView) findViewById(R.id.textViewQuestion);
 		editAnswer = (EditText) findViewById(R.id.editTextAnswer);
 		validate = (Button) findViewById(R.id.buttonValidate);
-		final ProgressBarCompteur progressTask = new ProgressBarCompteur();
+		mProgressBar = (ProgressBar) findViewById(R.id.pBAsync);
+		progressTransition = (ProgressBar) findViewById(R.id.progressBarTransition);
+		final ProgressBarCompteur timer = new ProgressBarCompteur();
+		
+		progressTransition.setVisibility(View.INVISIBLE);
 
 		// On récupère la base de données
 		DevOpenHelper helper = new DaoMaster.DevOpenHelper(GameActivity.this,
@@ -68,35 +97,42 @@ public class GameActivity extends Activity {
 		QueryBuilder qb = questionDao.queryBuilder();
 		listAllQuestion = qb.list();
 		listQuestionGame = new ArrayList<Question>();
-
-		// Création de la liste des questions de la partie
-		Random rand = new Random();
-		for (int i = 1; i <= 5; i++) {
-			int max = listAllQuestion.size();
-			int nombreAleatoire = rand.nextInt(max);
-			listQuestionGame.add(listAllQuestion.get(nombreAleatoire));
-			listAllQuestion.remove(nombreAleatoire);
-		}
-
-		mProgressBar = (ProgressBar) findViewById(R.id.pBAsync);
-		final ProgressBarCompteur timer = new ProgressBarCompteur();
+		
+		question = newQuestion();
+		
+		//On lance le thread du compteur
 		timer.execute();
 		
+		//On écoute le bouton valider la réponse
 		validate.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				String answer = listQuestionGame.get(0).getAnswer();
+				String answer = question.getAnswer();
 				String answerPlayer = editAnswer.getText().toString();
+				
+				//Si la réponse est correcte..
 				if (answer.equals(answerPlayer)) {
-					Toast.makeText(GameActivity.this, "Bonne réponse", Toast.LENGTH_SHORT).show();
-
+					Toast.makeText(GameActivity.this,
+							"Bonne réponse",
+							Toast.LENGTH_SHORT).show();
+					//..On stop le thread
 					timer.cancel(true);
-
+					
+					//On lance le thread de transition
+					ProgressBarTransition transition = new ProgressBarTransition();
+					transition.execute();
+				}
+				else {
+					//Mauvaise réponse
+					Toast.makeText(GameActivity.this,
+							"Mauvaise réponse",
+							Toast.LENGTH_SHORT).show();
 				}
 			}});
 
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,8 +147,12 @@ public class GameActivity extends Activity {
 		//appelé avant 
 		@Override
 		protected void onPreExecute() {
-			txtQuestion.setText(listQuestionGame.get(0).getQuestion());
+            validate.setEnabled(true);
+            validate.setText("Valider");
+            mProgressBar.setProgress(0);
+			txtQuestion.setText(question.getQuestion());
 		};
+		
 		//appelé pendant le thread, modifie l'UI principale
 		@Override
 		protected void onProgressUpdate(Integer... values) {
@@ -134,12 +174,13 @@ public class GameActivity extends Activity {
 			}
 			return null;
 		}
-		// executer a la fin de la tache
+		
 		@Override
 		protected void onPostExecute(Void result) {
-			Toast.makeText(GameActivity.this, "temps écoulé",
-					Toast.LENGTH_SHORT).show();
+			//Le joueur n'a pas réussi à répondre dans le temps imparti
+			showDialog(0);
 		}
+
 		
 		// executer si la tache ne fini pas ( à l'appel de cancel)
         @Override
@@ -147,7 +188,54 @@ public class GameActivity extends Activity {
             super.onCancelled();
             validate.setEnabled(false);
             validate.setText("Bonne Réponse");
-            // traitement à effectuer si la tâche est annulée
         }
+	}
+	
+	
+	//classe asynchrone qui affiche la progressbar chronomètre
+		private class ProgressBarTransition extends AsyncTask<Void, Void, Void> {
+			
+			//appelé avant 
+			@Override
+			protected void onPreExecute() {
+				editAnswer.setText("");
+				txtQuestion.setVisibility(View.INVISIBLE);
+				mProgressBar.setVisibility(View.INVISIBLE);
+				editAnswer.setVisibility(View.INVISIBLE);
+				validate.setVisibility(View.INVISIBLE);
+				progressTransition.setVisibility(View.VISIBLE);
+			}
+			
+
+		
+			
+			// tache de fond pour la transition
+			@Override
+			protected Void doInBackground(Void... arg0) {
+					SystemClock.sleep(3000);
+				return null;
+			}
+			
+			// executer a la fin de la tache
+			@Override
+			protected void onPostExecute(Void result) {
+				//On relance une question et un nouveau thread
+				recreate();
+			}
+			
+
+
+			
+		}
+	
+	
+	public Question newQuestion() {
+		// Création de la liste des questions de la partie
+		Random rand = new Random();
+		int max = listAllQuestion.size();
+		int nombreAleatoire = rand.nextInt(max);
+		question = listAllQuestion.get(nombreAleatoire);
+		listAllQuestion.remove(nombreAleatoire);
+		return question;
 	}
 }
