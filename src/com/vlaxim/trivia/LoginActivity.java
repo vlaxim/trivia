@@ -1,3 +1,8 @@
+/* class Longin Activity
+ * author : Maxime FLASQUIN
+ * Date : 09/02/2014
+ * Description : page de connexion de l'application
+ */
 package com.vlaxim.trivia;
 
 import java.util.List;

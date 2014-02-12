@@ -1,3 +1,9 @@
+/* class SplashScreenActivity
+ * author : Fabien HUAULME
+ * Date : 11/02/2014
+ * Description : decrit le fonctionnement du splash screen layout
+ */
+
 package com.vlaxim.trivia;
 
 

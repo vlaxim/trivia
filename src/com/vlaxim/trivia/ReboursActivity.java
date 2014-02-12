@@ -1,3 +1,8 @@
+/* class Game Activity
+ * author : Maxime FLASQUIN
+ * Date : 09/02/2014
+ * Description : gère le compte à rebours avant de lancer la partie
+ */
 package com.vlaxim.trivia;
 
 import android.os.AsyncTask;

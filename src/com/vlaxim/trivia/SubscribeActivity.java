@@ -1,3 +1,8 @@
+/* class Subscribe Activity
+ * author : Maxime FLASQUIN
+ * Date : 11/02/2014
+ * Description : gère l'inscription
+ */
 package com.vlaxim.trivia;
 
 import com.vlaxim.dao.DaoMaster;

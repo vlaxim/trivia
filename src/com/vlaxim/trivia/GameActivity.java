@@ -1,3 +1,8 @@
+/* class Game Activity
+ * author : Maxime FLASQUIN
+ * Date : 11/02/2014
+ * Description : decrit le fonctionnement du jeu
+ */
 package com.vlaxim.trivia;
 
 import java.util.ArrayList;
@@ -103,12 +108,12 @@ public class GameActivity extends Activity {
 	//classe asynchrone qui affiche la progressbar chronomètre
 	private class ProgressBarCompteur extends AsyncTask<Void, Integer, Void> {
 	
-	//classe asynchrone qui affiche la progressbar chronomètre
+		//appelé avant 
 		@Override
 		protected void onPreExecute() {
 			txtQuestion.setText(listQuestionGame.get(0).getQuestion());
 		};
-
+		//appelé pendant le thread, modifie l'UI principale
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			super.onProgressUpdate(values);
@@ -116,7 +121,7 @@ public class GameActivity extends Activity {
 			//ancienne place du validate et listener
 
 		}
-
+		// tache de fond
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			for (int i = 1; i <= 15; i++) {
@@ -129,13 +134,14 @@ public class GameActivity extends Activity {
 			}
 			return null;
 		}
-
+		// executer a la fin de la tache
 		@Override
 		protected void onPostExecute(Void result) {
 			Toast.makeText(GameActivity.this, "temps écoulé",
 					Toast.LENGTH_SHORT).show();
 		}
 		
+		// executer si la tache ne fini pas ( à l'appel de cancel)
         @Override
         protected void onCancelled(){
             super.onCancelled();

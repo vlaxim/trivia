@@ -35,9 +35,7 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="title_activity_rebours">ReboursActivity</string>
     <string name="title_activity_game">GameActivity</string>
-    
-    
-    
+
     <!-- Questions / Réponses -->
     <string name="question1">Sur quelle ville du Japon fût larguée la seconde bombe atomique Fat Man le 9 Août 1945</string>
     <string name="answer1">Nagasaki</string>
@@ -48,5 +46,7 @@
     <string name="question4">Quel mot afrikaans signifie "séparation" ?</string>
     <string name="answer4">Apartheid</string>
     <string name="question5">Quel est ce jeu collectif pratiqué dès le XIIe siècle, ancêtre du rugby</string>
-	<string name="answer5">La soule</string>
+    <string name="answer5">La soule</string>
+    <string name="title_activity_my_stats">MyStatsActivity</string>
+
 </resources>
