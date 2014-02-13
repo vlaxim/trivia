@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textViewPerdu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="Vous avez réalisé un score de : " />
+
+    <TextView
+        android:id="@+id/textViewScoreFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewPerdu"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="21dp" />
+
+    <Button
+        android:id="@+id/buttonLeave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textViewScoreFinal"
+        android:layout_marginRight="24dp"
+        android:text="Quitter" />
+
+    <Button
+        android:id="@+id/buttonReplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewScoreFinal"
+        android:layout_marginRight="30dp"
+        android:layout_toLeftOf="@+id/textViewScoreFinal"
+        android:text="Rejouer" />
+    
+</RelativeLayout>

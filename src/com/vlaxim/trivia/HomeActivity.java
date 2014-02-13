@@ -83,6 +83,13 @@ public class HomeActivity extends Activity {
 		});
 
 	}
+	
+	// Tuer l'activité lors de l'appuie sur le bouton de retour
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		this.finish();
+	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {

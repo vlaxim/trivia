@@ -52,4 +52,25 @@
       android:layout_marginLeft="36dp" 
       android:visibility="gone"/>
 
+  <TextView
+      android:id="@+id/textViewScoreTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignLeft="@+id/buttonValidate"
+      android:layout_alignParentBottom="true"
+      android:layout_marginBottom="88dp"
+      android:text="@string/score"
+      android:textStyle="bold" />
+
+  <TextView
+      android:id="@+id/textViewScore"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBaseline="@+id/textViewScoreTitle"
+      android:layout_alignBottom="@+id/textViewScoreTitle"
+      android:layout_alignRight="@+id/editTextAnswer"
+      android:layout_marginRight="28dp"
+      android:textSize="30sp"
+      android:textStyle="bold" />
+
 </RelativeLayout>

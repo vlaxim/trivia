@@ -48,5 +48,8 @@
     <string name="question5">Quel est ce jeu collectif pratiqué dès le XIIe siècle, ancêtre du rugby</string>
     <string name="answer5">La soule</string>
     <string name="title_activity_my_stats">MyStatsActivity</string>
+    
+   <!-- GameActivity -->
+   <string name="score">Score : </string>
 
 </resources>

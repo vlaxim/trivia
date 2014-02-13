@@ -7,7 +7,6 @@ package com.vlaxim.trivia;
 
 
 import android.media.MediaPlayer;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -28,6 +27,13 @@ public class ReboursActivity extends Activity {
 		
 		CompteARebours compteARebours = new CompteARebours();
 		compteARebours.execute();
+	}
+	
+	// Tuer l'activité lors de l'appuie sur le bouton de retour
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		this.finish();
 	}
 
 	@Override
