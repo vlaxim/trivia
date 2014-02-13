@@ -80,7 +80,7 @@ public class GameActivity extends Activity {
 		editAnswer = (EditText) findViewById(R.id.editTextAnswer);
 		validate = (Button) findViewById(R.id.buttonValidate);
 		mProgressBar = (ProgressBar) findViewById(R.id.pBAsync);
-		//progressTransition = (ProgressBar) findViewById(R.id.progressBarTransition);
+		progressTransition = (ProgressBar) findViewById(R.id.progressBarTransition);
 		final ProgressBarCompteur timer = new ProgressBarCompteur();
 		
 		progressTransition.setVisibility(View.INVISIBLE);
@@ -188,10 +188,6 @@ public class GameActivity extends Activity {
             super.onCancelled();
             validate.setEnabled(false);
             validate.setText("Bonne Réponse");
-
-            setContentView(R.layout.activity_game);
-            // traitement à effectuer si la tâche est annulée
-
         }
 	}
 	
