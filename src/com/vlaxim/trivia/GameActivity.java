@@ -28,8 +28,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -182,6 +184,9 @@ public class GameActivity extends Activity {
 		});
 
 	}
+	
+
+
 
 	// Tuer l'activité lors de l'appuie sur le bouton de retour
 	@Override
@@ -198,6 +203,10 @@ public class GameActivity extends Activity {
 		return true;
 	}
 
+	
+	
+
+	
 	// classe asynchrone qui affiche la progressbar chronomètre
 	private class ProgressBarCompteur extends AsyncTask<Void, Integer, Void> {
 
