@@ -10,7 +10,7 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="connexion">Connexion</string>
-    <string name="subscribe">Je m\'inscrit</string>
+    <string name="subscribe">Je m\'inscris</string>
     <string name="title_activity_subscribe">SubscribeActivity</string>
 
     <!-- SubscribeActivity -->
@@ -38,15 +38,15 @@
 
     <!-- Questions / Réponses -->
     <string name="question1">Sur quelle ville du Japon fût larguée la seconde bombe atomique Fat Man le 9 Août 1945</string>
-    <string name="answer1">Nagasaki</string>
+    <string name="answer1">NAGASAKI</string>
     <string name="question2">Quel terme désigne une personne ne voyant que d\'un oeil (ormis cyclope)</string>
-    <string name="answer2">Borgne</string>
+    <string name="answer2">BORGNE</string>
     <string name="question3">Quelle est la couleur du deuil dans les pays musulmans ?</string>
-    <string name="answer3">Blanc</string>
+    <string name="answer3">BLANC</string>
     <string name="question4">Quel mot afrikaans signifie "séparation" ?</string>
-    <string name="answer4">Apartheid</string>
+    <string name="answer4">APARTHEID</string>
     <string name="question5">Quel est ce jeu collectif pratiqué dès le XIIe siècle, ancêtre du rugby</string>
-    <string name="answer5">La soule</string>
+    <string name="answer5">SOULE</string>
     <string name="title_activity_my_stats">MyStatsActivity</string>
     
    <!-- GameActivity -->
