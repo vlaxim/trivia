@@ -9,16 +9,40 @@
     tools:context=".SubscribeActivity" >
 
     <TextView
-        android:id="@+id/textViewInscription"
+        android:id="@+id/textViewNom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="@string/inscription"
-        android:textColor="#FD8200"
-        android:textSize="30sp"
+        android:layout_below="@+id/textViewInscription"
+        android:layout_marginRight="29dp"
+        android:layout_toLeftOf="@+id/textViewInscription"
+        android:text="@string/lastName"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextPwd"
+        android:layout_below="@+id/editTextPwd"
+        android:layout_marginTop="36dp"
+        android:text="@string/mail"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewPwd"
+        android:layout_below="@+id/textViewPwd"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/editTextPseudo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewPseudo"
+        android:layout_below="@+id/textViewPseudo"
+        android:ems="10" />
 
     <EditText
         android:id="@+id/editTextNom"
@@ -31,6 +55,16 @@
         <requestFocus />
     </EditText>
 
+    <TextView
+        android:id="@+id/textViewPrenom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextNom"
+        android:layout_below="@+id/view1"
+        android:layout_marginTop="15dp"
+        android:text="@string/firstName"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/editTextPrenom"
         android:layout_width="wrap_content"
@@ -39,85 +73,87 @@
         android:layout_below="@+id/textViewPrenom"
         android:ems="10" />
 
-    <EditText
-        android:id="@+id/editTextPseudo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewPseudo"
-        android:layout_below="@+id/textViewPseudo"
-        android:ems="10" />
+    <View
+        android:id="@+id/View02"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignRight="@+id/View01"
+        android:layout_below="@+id/editTextPwd"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider" />
 
-    <EditText
-        android:id="@+id/editTextPwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewPwd"
-        android:layout_below="@+id/textViewPwd"
-        android:ems="10" />
-
-    <EditText
-        android:id="@+id/editTextMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewMail"
-        android:layout_below="@+id/textViewMail"
-        android:ems="10" />
-
-    <TextView
-        android:id="@+id/textViewNom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewInscription"
-        android:layout_marginRight="29dp"
-        android:layout_toLeftOf="@+id/textViewInscription"
-        android:text="@string/lastName"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textViewPrenom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextNom"
+    <View
+        android:id="@+id/view1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/view2"
         android:layout_below="@+id/editTextNom"
-        android:layout_marginTop="14dp"
-        android:text="@string/firstName"
-        android:textStyle="bold" />
+        android:layout_marginTop="15dp"
+        android:background="?android:attr/listDivider" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignRight="@+id/View01"
+        android:layout_below="@+id/editTextPrenom"
+        android:layout_marginTop="15dp"
+        android:background="?android:attr/listDivider" />
 
     <TextView
         android:id="@+id/textViewPseudo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/textViewPrenom"
-        android:layout_below="@+id/editTextPrenom"
+        android:layout_below="@+id/view2"
         android:layout_marginTop="14dp"
         android:text="@string/pseudo"
         android:textStyle="bold" />
+
+    <View
+        android:id="@+id/View01"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/editTextPseudo"
+        android:layout_below="@+id/editTextPseudo"
+        android:layout_marginTop="14dp"
+        android:background="?android:attr/listDivider" />
 
     <TextView
         android:id="@+id/textViewPwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextPseudo"
-        android:layout_below="@+id/editTextPseudo"
-        android:layout_marginTop="14dp"
+        android:layout_alignLeft="@+id/View01"
+        android:layout_below="@+id/View01"
+        android:layout_marginTop="15dp"
         android:text="@string/password"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textViewMail"
+    <EditText
+        android:id="@+id/editTextMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextPwd"
-        android:layout_below="@+id/editTextPwd"
-        android:layout_marginTop="14dp"
-        android:text="@string/mail"
+        android:layout_alignLeft="@+id/editTextPrenom"
+        android:layout_below="@+id/textViewMail"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/textViewInscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"
+        android:text="@string/inscription"
+        android:textColor="#FD8200"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/buttonSubscribe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/editTextMail"
         android:layout_toRightOf="@+id/textViewPwd"
         android:text="@string/subscribe" />
 

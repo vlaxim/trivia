@@ -9,8 +9,23 @@
     tools:context=".MyStatsActivity" >
 
     <TextView
+        android:id="@+id/textViewMesStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Mes stats"
+        android:textColor="#FD8200"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/listViewMyScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewMesStats"
+        android:layout_centerHorizontal="true" >
+
+    </ListView>
 
 </RelativeLayout>

@@ -34,7 +34,7 @@
            
            <Button
                android:id="@+id/buttonPlay"
-               android:layout_width="wrap_content"
+               android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:layout_alignTop="@+id/imageViewLogo"
                android:layout_centerHorizontal="true"
@@ -43,7 +43,7 @@
            
             <Button
                android:id="@+id/buttonMyStats"
-               android:layout_width="wrap_content"
+               android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:layout_alignTop="@+id/buttonPlay"
                android:layout_marginTop="70dp"

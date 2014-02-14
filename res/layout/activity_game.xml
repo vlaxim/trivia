@@ -8,69 +8,84 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".GameActivity" >
 
-  <ProgressBar
+    <ProgressBar
         android:id="@+id/pBAsync"
         style="@style/CustomProgressBarHorizontal"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:max="15"
-        android:layout_height="wrap_content" />
+        android:max="15" />
 
-  <TextView
-      android:id="@+id/textViewQuestion"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignLeft="@+id/pBAsync"
-      android:layout_below="@+id/pBAsync"
-      android:layout_marginTop="18dp"
-      android:text="TextView" />
+    <TextView
+        android:id="@+id/textViewQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pBAsync"
+        android:layout_below="@+id/pBAsync"
+        android:layout_marginTop="18dp"
+        android:text="TextView" />
 
-  <EditText
-      android:id="@+id/editTextAnswer"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignLeft="@+id/textViewQuestion"
-      android:layout_below="@+id/textViewQuestion"
-      android:layout_marginTop="50dp"
-      android:ems="10" />
+    <ProgressBar
+        android:id="@+id/progressBarTransition"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editTextAnswer"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="36dp"
+        android:visibility="gone" />
 
-  <Button
-      android:id="@+id/buttonValidate"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_centerVertical="true"
-      android:text="Valider la réponse" />
+    <Button
+        android:id="@+id/buttonValidate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textViewQuestion"
+        android:layout_marginTop="117dp"
+        android:text="Valider la réponse" />
 
-  <ProgressBar
-      android:id="@+id/progressBarTransition"
-      style="?android:attr/progressBarStyleLarge"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerVertical="true"
-      android:layout_centerHorizontal="true"
-      android:layout_alignBottom="@+id/editTextAnswer"
-      android:layout_marginLeft="36dp" 
-      android:visibility="gone"/>
+    <EditText
+        android:id="@+id/editTextAnswer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/buttonValidate"
+        android:layout_below="@+id/textViewQuestion"
+        android:layout_marginTop="60dp"
+        android:ems="10" >
 
-  <TextView
-      android:id="@+id/textViewScoreTitle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignLeft="@+id/buttonValidate"
-      android:layout_alignParentBottom="true"
-      android:layout_marginBottom="88dp"
-      android:text="@string/score"
-      android:textStyle="bold" />
+        <requestFocus />
+    </EditText>
 
-  <TextView
-      android:id="@+id/textViewScore"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignBaseline="@+id/textViewScoreTitle"
-      android:layout_alignBottom="@+id/textViewScoreTitle"
-      android:layout_alignRight="@+id/editTextAnswer"
-      android:layout_marginRight="28dp"
-      android:textSize="30sp"
-      android:textStyle="bold" />
+    <View
+        android:id="@+id/view1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/buttonValidate"
+        android:layout_centerVertical="true"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/textViewScoreTit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view1"
+        android:layout_marginTop="70dp"
+        android:text="Score : "
+        android:textColor="#FD8200"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewScoreTit"
+        android:layout_alignBottom="@+id/textViewScoreTit"
+        android:layout_centerHorizontal="true"
+        android:text="TextView"
+        android:textColor="#FD8200"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

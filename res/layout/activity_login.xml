@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/imageViewLogo"
             android:layout_alignTop="@+id/imageViewLogo"
-            android:layout_marginLeft="28dp"
             android:layout_marginTop="112dp"
             android:text="@string/login"
             android:textColor="#FD8200"
@@ -36,7 +35,7 @@
         <EditText
             android:id="@+id/editTextLogin"
             android:inputType="text"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textViewLogin"
             android:layout_below="@+id/textViewLogin"
@@ -61,7 +60,7 @@
 
         <EditText
             android:id="@+id/editTextPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textViewPwd"
             android:layout_below="@+id/textViewPwd"
@@ -72,20 +71,20 @@
 
         <Button
             android:id="@+id/buttonConnect"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/imageViewLogo"
             android:layout_below="@+id/editTextPassword"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="24dp"
-            android:layout_toRightOf="@+id/textViewLogin"
+            android:layout_marginTop="30dp"
             android:text="@string/connexion" />
 
         <Button
             android:id="@+id/buttonSubscribeLogin"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageViewLogo"
-            android:layout_alignLeft="@+id/buttonConnect"
+            android:layout_alignLeft="@+id/imageViewLogo"
+            android:layout_below="@+id/buttonConnect"
+            android:layout_marginTop="20dp"
             android:text="@string/subscribe" />
 
 </RelativeLayout>

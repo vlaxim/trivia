@@ -30,6 +30,7 @@ public class HomeActivity extends Activity {
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 
 	private Button play;
+	private Button myStats;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,16 @@ public class HomeActivity extends Activity {
 						ReboursActivity.class);
 				startActivity(intentRebours);
 
+			}
+		});
+		
+		myStats = (Button) findViewById(R.id.buttonMyStats);
+		myStats.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intentMyStats = new Intent(HomeActivity.this, MyStatsActivity.class);
+				startActivity(intentMyStats);
 			}
 		});
 

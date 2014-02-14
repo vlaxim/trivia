@@ -14,14 +14,19 @@ import com.vlaxim.dao.DaoSession;
 import com.vlaxim.dao.Question;
 import com.vlaxim.dao.QuestionDao;
 import com.vlaxim.dao.DaoMaster.DevOpenHelper;
+import com.vlaxim.dao.Score;
+import com.vlaxim.dao.ScoreDao;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Contacts.Settings;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 import android.view.View;
@@ -53,7 +58,9 @@ public class GameActivity extends Activity {
 	private DaoMaster daoMaster;
 	private DaoSession daoSession;
 	private QuestionDao questionDao;
+	private ScoreDao scoreDao;
 	private Question question;
+	private SharedPreferences settings;
 
 	// Création de la dialog en cas de perte
 	@Override
@@ -106,6 +113,10 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
+		// Création des préférences
+		settings = this.getSharedPreferences("com.vlaxim.trivia",
+				Context.MODE_WORLD_READABLE);
+
 		// Récupération des éléments du layout
 		txtQuestion = (TextView) findViewById(R.id.textViewQuestion);
 		editAnswer = (EditText) findViewById(R.id.editTextAnswer);
@@ -134,7 +145,7 @@ public class GameActivity extends Activity {
 		questionDao = daoSession.getQuestionDao();
 		QueryBuilder qb = questionDao.queryBuilder();
 		listAllQuestion = qb.list();
-		listQuestionGame = new ArrayList<Question>();
+
 
 		question = newQuestion();
 
@@ -223,8 +234,19 @@ public class GameActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Void result) {
+
+			// Enregistrement du score dans la base de données
+			scoreDao = daoSession.getScoreDao();
+			String idUser = settings.getString("idUser", "null");
+			if (idUser.equals("null") == false) {
+			Score leScore = new Score(null, SingletonScore.getInstance()
+					.getScore(), Integer.parseInt(idUser));
+			scoreDao.insert(leScore);
+			}
+
 			// Le joueur n'a pas réussi à répondre dans le temps imparti
 			showDialog(SingletonScore.getInstance().getScore());
+
 		}
 
 		// executer si la tache ne fini pas ( à l'appel de cancel)

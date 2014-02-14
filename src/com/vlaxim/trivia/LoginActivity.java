@@ -20,7 +20,9 @@ import android.R.anim;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DownloadManager.Query;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,6 +50,7 @@ public class LoginActivity extends Activity {
 	private DaoSession daoSession;
 	private UserDao userDao;
 	private QuestionDao questionDao;
+	private SharedPreferences settings;
 
 	private List<User> user;
 
@@ -59,6 +62,10 @@ public class LoginActivity extends Activity {
 		connexion = (Button) findViewById(R.id.buttonConnect);
 		login = (EditText) findViewById(R.id.editTextLogin);
 		password = (EditText) findViewById(R.id.editTextPassword);
+		
+		//Création des préférences
+		settings = this.getSharedPreferences(
+			      "com.vlaxim.trivia", Context.MODE_WORLD_READABLE);
 
 		connexion.setOnClickListener(new View.OnClickListener() {
 
@@ -103,8 +110,14 @@ public class LoginActivity extends Activity {
 
 				if (user.size() == 1) {
 					Toast.makeText(LoginActivity.this,
-							"Authentification réussie", Toast.LENGTH_LONG)
+							"Authentification réussie", Toast.LENGTH_SHORT)
 							.show();
+					
+					//Enregistrement de l'id de l'utilisateur dans les préferences
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("idUser", Long.toString(user.get(0).getId()));
+					editor.commit();
+					
 					user.clear();
 
 					Intent intentHome = new Intent(LoginActivity.this,
@@ -114,7 +127,7 @@ public class LoginActivity extends Activity {
 
 				else {
 					Toast.makeText(LoginActivity.this, "Mauvais identifiants",
-							Toast.LENGTH_LONG).show();
+							Toast.LENGTH_SHORT).show();
 				}
 
 			}
