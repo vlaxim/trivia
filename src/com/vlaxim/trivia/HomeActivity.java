@@ -31,6 +31,13 @@ public class HomeActivity extends Activity {
 
 	private Button play;
 	private Button myStats;
+	
+	//Position des items du menu
+	private int jouer = 0;
+	private int mesStats = 1;
+	private int lesStats = 2;
+	private int regles = 3;
+	private int aPropos = 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,7 @@ public class HomeActivity extends Activity {
 				Intent intentRebours = new Intent(HomeActivity.this,
 						ReboursActivity.class);
 				startActivity(intentRebours);
-
+				HomeActivity.this.finish();
 			}
 		});
 		
@@ -90,12 +97,17 @@ public class HomeActivity extends Activity {
 			public void onClick(View v) {
 				Intent intentMyStats = new Intent(HomeActivity.this, MyStatsActivity.class);
 				startActivity(intentMyStats);
+				HomeActivity.this.finish();
 			}
 		});
 
 	}
 	
 	// Tuer l'activité lors de l'appuie sur le bouton de retour
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -135,9 +147,40 @@ public class HomeActivity extends Activity {
 				View view,
 				int position,
 				long id) {
-			Toast.makeText(HomeActivity.this,
-					((TextView) view).getText(),
-					Toast.LENGTH_LONG).show();
+			//Au clic sur jouer
+			if (position == jouer) {
+				Intent intent = new Intent(HomeActivity.this, ReboursActivity.class);
+				startActivity(intent);
+				HomeActivity.this.finish();
+			}
+			
+			//Au clic sur Mes stats
+			if (position == mesStats) {
+				Intent intent = new Intent(HomeActivity.this, MyStatsActivity.class);
+				startActivity(intent);
+				HomeActivity.this.finish();
+			}
+			
+			//Au clic sur Les stats
+			if(position == lesStats) {
+				Intent intent = new Intent(HomeActivity.this, StatsActivity.class);
+				startActivity(intent);
+				HomeActivity.this.finish();
+			}
+			
+			//Au clic sur Règles du jeu
+			if(position == regles) {
+				Intent intent = new Intent(HomeActivity.this, RulesActivity.class);
+				startActivity(intent);
+				HomeActivity.this.finish();
+			}
+			
+			//Au clic sur a propos
+			if(position == aPropos) {
+				Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
+				startActivity(intent);
+				HomeActivity.this.finish();
+			}
 			drawerLayout.closeDrawer(drawerListView);
 
 		}

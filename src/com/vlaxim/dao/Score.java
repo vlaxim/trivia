@@ -12,119 +12,128 @@ import de.greenrobot.dao.DaoException;
  */
 public class Score {
 
-    private Long id;
-    private Integer score;
-    private long userId;
+	private Long id;
+	private Integer score;
+	private long userId;
 
-    /** Used to resolve relations */
-    private transient DaoSession daoSession;
+	/** Used to resolve relations */
+	private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
-    private transient ScoreDao myDao;
+	/** Used for active entity operations. */
+	private transient ScoreDao myDao;
 
-    private User user;
-    private Long user__resolvedKey;
+	private User user;
+	private Long user__resolvedKey;
 
+	// KEEP FIELDS - put your custom fields here
+	// KEEP FIELDS END
 
-    // KEEP FIELDS - put your custom fields here
-    // KEEP FIELDS END
+	public Score() {
+	}
 
-    public Score() {
-    }
+	public Score(Long id) {
+		this.id = id;
+	}
 
-    public Score(Long id) {
-        this.id = id;
-    }
+	public Score(Long id, Integer score, long userId) {
+		this.id = id;
+		this.score = score;
+		this.userId = userId;
+	}
 
-    public Score(Long id, Integer score, long userId) {
-        this.id = id;
-        this.score = score;
-        this.userId = userId;
-    }
+	/** called by internal mechanisms, do not call yourself. */
+	public void __setDaoSession(DaoSession daoSession) {
+		this.daoSession = daoSession;
+		myDao = daoSession != null ? daoSession.getScoreDao() : null;
+	}
 
-    /** called by internal mechanisms, do not call yourself. */
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getScoreDao() : null;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Integer getScore() {
+		return score;
+	}
 
-    public Integer getScore() {
-        return score;
-    }
+	public void setScore(Integer score) {
+		this.score = score;
+	}
 
-    public void setScore(Integer score) {
-        this.score = score;
-    }
+	public long getUserId() {
+		return userId;
+	}
 
-    public long getUserId() {
-        return userId;
-    }
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
+	/** To-one relationship, resolved on first access. */
+	public User getUser() {
+		long __key = this.userId;
+		if (user__resolvedKey == null || !user__resolvedKey.equals(__key)) {
+			if (daoSession == null) {
+				throw new DaoException("Entity is detached from DAO context");
+			}
+			UserDao targetDao = daoSession.getUserDao();
+			User userNew = targetDao.load(__key);
+			synchronized (this) {
+				user = userNew;
+				user__resolvedKey = __key;
+			}
+		}
+		return user;
+	}
 
-    /** To-one relationship, resolved on first access. */
-    public User getUser() {
-        long __key = this.userId;
-        if (user__resolvedKey == null || !user__resolvedKey.equals(__key)) {
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UserDao targetDao = daoSession.getUserDao();
-            User userNew = targetDao.load(__key);
-            synchronized (this) {
-                user = userNew;
-            	user__resolvedKey = __key;
-            }
-        }
-        return user;
-    }
+	public void setUser(User user) {
+		if (user == null) {
+			throw new DaoException(
+					"To-one property 'userId' has not-null constraint; cannot set to-one to null");
+		}
+		synchronized (this) {
+			this.user = user;
+			userId = user.getId();
+			user__resolvedKey = userId;
+		}
+	}
 
-    public void setUser(User user) {
-        if (user == null) {
-            throw new DaoException("To-one property 'userId' has not-null constraint; cannot set to-one to null");
-        }
-        synchronized (this) {
-            this.user = user;
-            userId = user.getId();
-            user__resolvedKey = userId;
-        }
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#delete(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void delete() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.delete(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.delete(this);
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#update(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void update() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.update(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context. */
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.update(this);
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#refresh(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void refresh() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.refresh(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context. */
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.refresh(this);
-    }
-
-    // KEEP METHODS - put your custom methods here
-    // KEEP METHODS END
+	// KEEP METHODS - put your custom methods here
+	// KEEP METHODS END
 
 }

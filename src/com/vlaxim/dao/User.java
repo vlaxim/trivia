@@ -12,118 +12,127 @@ import de.greenrobot.dao.DaoException;
  */
 public class User {
 
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String pseudo;
-    private String password;
-    private String mail;
+	private Long id;
+	private String firstName;
+	private String lastName;
+	private String pseudo;
+	private String password;
+	private String mail;
 
-    /** Used to resolve relations */
-    private transient DaoSession daoSession;
+	/** Used to resolve relations */
+	private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
-    private transient UserDao myDao;
+	/** Used for active entity operations. */
+	private transient UserDao myDao;
 
+	// KEEP FIELDS - put your custom fields here
+	// KEEP FIELDS END
 
-    // KEEP FIELDS - put your custom fields here
-    // KEEP FIELDS END
+	public User() {
+	}
 
-    public User() {
-    }
+	public User(Long id) {
+		this.id = id;
+	}
 
-    public User(Long id) {
-        this.id = id;
-    }
+	public User(Long id, String firstName, String lastName, String pseudo,
+			String password, String mail) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.pseudo = pseudo;
+		this.password = password;
+		this.mail = mail;
+	}
 
-    public User(Long id, String firstName, String lastName, String pseudo, String password, String mail) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.pseudo = pseudo;
-        this.password = password;
-        this.mail = mail;
-    }
+	/** called by internal mechanisms, do not call yourself. */
+	public void __setDaoSession(DaoSession daoSession) {
+		this.daoSession = daoSession;
+		myDao = daoSession != null ? daoSession.getUserDao() : null;
+	}
 
-    /** called by internal mechanisms, do not call yourself. */
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getUserDao() : null;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getPseudo() {
+		return pseudo;
+	}
 
-    public String getPseudo() {
-        return pseudo;
-    }
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getMail() {
+		return mail;
+	}
 
-    public String getMail() {
-        return mail;
-    }
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#delete(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void delete() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.delete(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.delete(this);
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#update(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void update() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.update(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context. */
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.update(this);
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#refresh(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void refresh() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.refresh(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context. */
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.refresh(this);
-    }
-
-    // KEEP METHODS - put your custom methods here
-    // KEEP METHODS END
+	// KEEP METHODS - put your custom methods here
+	// KEEP METHODS END
 
 }

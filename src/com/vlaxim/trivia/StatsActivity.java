@@ -1,21 +1,22 @@
-/* class Game Activity
- * author : Fabien HUAULME
- * Date : 12/02/2014
- * Description : decrit le fonctionnement du jeu
- */package com.vlaxim.trivia;
+/* class StatsActivity
+ * author : Maxime FLASQUIN
+ * Date : 18/02/2014
+ * Description : Affiche les statistiques globaux
+ */
+
+package com.vlaxim.trivia;
 
 import java.util.List;
 
 import com.vlaxim.dao.DaoMaster;
 import com.vlaxim.dao.DaoSession;
-import com.vlaxim.dao.DaoMaster.DevOpenHelper;
-import com.vlaxim.dao.User;
-import com.vlaxim.dao.UserDao.Properties;
 import com.vlaxim.dao.Score;
 import com.vlaxim.dao.ScoreDao;
+import com.vlaxim.dao.User;
 import com.vlaxim.dao.UserDao;
+import com.vlaxim.dao.DaoMaster.DevOpenHelper;
+import com.vlaxim.dao.UserDao.Properties;
 
-import de.greenrobot.dao.query.QueryBuilder;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -29,9 +30,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class MyStatsActivity extends Activity {
+public class StatsActivity extends Activity {
 
 	private SQLiteDatabase db;
 	private DaoMaster daoMaster;
@@ -47,58 +47,42 @@ public class MyStatsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_my_stats);
-
-		// Création des préférences
-		settings = this.getSharedPreferences("com.vlaxim.trivia",
-				Context.MODE_WORLD_READABLE);
+		setContentView(R.layout.activity_stats);
 
 		// On récupère la base de données
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(
-				MyStatsActivity.this, "trivia-db", null);
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(StatsActivity.this,
+				"trivia-db", null);
 		db = helper.getWritableDatabase();
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
-
-		// Récupération de l'id l'utilisateur courant
-		String idUser = settings.getString("idUser", "null");
-		// Récupération de l'objet user
 		userDao = daoSession.getUserDao();
-		listUser = userDao.queryBuilder().where(Properties.Id.eq(idUser))
-				.list();
-		if (listUser.isEmpty() == false) {
-			user = listUser.get(0);
-		}
 
-		// Récupération de la liste des scores de l'utilisateur courant
+		// Récupération de la liste des scores
 		daoScore = daoSession.getScoreDao();
 
-		listAllScore = daoScore.queryBuilder()
-				.where(ScoreDao.Properties.UserId.eq(user.getId())).limit(15)
+		listAllScore = daoScore.queryBuilder().limit(15)
 				.orderDesc(ScoreDao.Properties.Score).list();
 
 		// Remplissage de la liste avec un adapter
-		liste = (ListView) findViewById(R.id.listViewMyScore);
+		liste = (ListView) findViewById(R.id.listViewLesStats);
 		MyAdapter adapter = new MyAdapter(this, R.layout.row_score,
 				listAllScore);
 		liste.setAdapter(adapter);
-
 	}
-	
+
 	// Tuer l'activité lors de l'appuie sur le bouton de retour
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		this.finish();
-		Intent intentHome = new Intent(MyStatsActivity.this,
-				HomeActivity.class);
+		Intent intentHome = new Intent(StatsActivity.this, HomeActivity.class);
 		startActivity(intentHome);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.my_stats, menu);
+		getMenuInflater().inflate(R.menu.stats, menu);
 		return true;
 	}
 
@@ -123,9 +107,14 @@ public class MyStatsActivity extends Activity {
 			TextView tvScore = (TextView) view
 					.findViewById(R.id.textViewScorePerso);
 
+			// Récupération du score courant
 			Score score = this.getItem(position);
 
-			tvPseudo.setText(user.getPseudo());
+			// Récupération du user
+			listUser = userDao.queryBuilder()
+					.where(UserDao.Properties.Id.eq(score.getId())).list();
+
+			tvPseudo.setText(score.getUser().getPseudo().toString());
 			tvScore.setText("Score : " + String.valueOf(score.getScore()));
 			return view;
 		}

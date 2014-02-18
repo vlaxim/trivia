@@ -12,88 +12,96 @@ import de.greenrobot.dao.DaoException;
  */
 public class Question {
 
-    private Long id;
-    private String question;
-    private String answer;
+	private Long id;
+	private String question;
+	private String answer;
 
-    /** Used to resolve relations */
-    private transient DaoSession daoSession;
+	/** Used to resolve relations */
+	private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
-    private transient QuestionDao myDao;
+	/** Used for active entity operations. */
+	private transient QuestionDao myDao;
 
+	// KEEP FIELDS - put your custom fields here
+	// KEEP FIELDS END
 
-    // KEEP FIELDS - put your custom fields here
-    // KEEP FIELDS END
+	public Question() {
+	}
 
-    public Question() {
-    }
+	public Question(Long id) {
+		this.id = id;
+	}
 
-    public Question(Long id) {
-        this.id = id;
-    }
+	public Question(Long id, String question, String answer) {
+		this.id = id;
+		this.question = question;
+		this.answer = answer;
+	}
 
-    public Question(Long id, String question, String answer) {
-        this.id = id;
-        this.question = question;
-        this.answer = answer;
-    }
+	/** called by internal mechanisms, do not call yourself. */
+	public void __setDaoSession(DaoSession daoSession) {
+		this.daoSession = daoSession;
+		myDao = daoSession != null ? daoSession.getQuestionDao() : null;
+	}
 
-    /** called by internal mechanisms, do not call yourself. */
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getQuestionDao() : null;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getQuestion() {
+		return question;
+	}
 
-    public String getQuestion() {
-        return question;
-    }
+	public void setQuestion(String question) {
+		this.question = question;
+	}
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
+	public String getAnswer() {
+		return answer;
+	}
 
-    public String getAnswer() {
-        return answer;
-    }
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#delete(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void delete() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.delete(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.delete(this);
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#update(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void update() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.update(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context. */
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.update(this);
-    }
+	/**
+	 * Convenient call for {@link AbstractDao#refresh(Object)}. Entity must
+	 * attached to an entity context.
+	 */
+	public void refresh() {
+		if (myDao == null) {
+			throw new DaoException("Entity is detached from DAO context");
+		}
+		myDao.refresh(this);
+	}
 
-    /** Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context. */
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }    
-        myDao.refresh(this);
-    }
-
-    // KEEP METHODS - put your custom methods here
-    // KEEP METHODS END
+	// KEEP METHODS - put your custom methods here
+	// KEEP METHODS END
 
 }

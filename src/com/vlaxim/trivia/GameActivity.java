@@ -5,10 +5,13 @@
  */
 package com.vlaxim.trivia;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.http.protocol.ResponseConnControl;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.vlaxim.dao.DaoMaster;
 import com.vlaxim.dao.DaoSession;
 import com.vlaxim.dao.Question;
@@ -21,7 +24,6 @@ import de.greenrobot.dao.query.QueryBuilder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.provider.Contacts.Settings;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -51,9 +53,6 @@ public class GameActivity extends Activity {
 	private Button rejouer;
 	private ProgressBarCompteur timer;
 
-	private List<Question> listAllQuestion;
-	private List<Question> listQuestionGame;
-
 	private SQLiteDatabase db;
 	private DaoMaster daoMaster;
 	private DaoSession daoSession;
@@ -61,52 +60,6 @@ public class GameActivity extends Activity {
 	private ScoreDao scoreDao;
 	private Question question;
 	private SharedPreferences settings;
-
-	// Création de la dialog en cas de perte
-	@Override
-	protected Dialog onCreateDialog(int score) {
-		final Dialog box;
-		box = new Dialog(this);
-		box.setTitle("Vous avez perdu !");
-		box.setContentView(R.layout.dialog_restart);
-
-		scoreFinal = (TextView) box.findViewById(R.id.textViewScoreFinal);
-		quitter = (Button) box.findViewById(R.id.buttonLeave);
-		rejouer = (Button) box.findViewById(R.id.buttonReplay);
-
-		scoreFinal.setText(Integer.toString(SingletonScore.getInstance()
-				.getScore()));
-
-		quitter.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intentHome = new Intent(GameActivity.this,
-						HomeActivity.class);
-				SingletonScore.getInstance().scoreAZero();
-				startActivity(intentHome);
-				box.cancel();
-				finish();
-			}
-		});
-
-		rejouer.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				SingletonScore.getInstance().scoreAZero();
-				recreate();
-				box.cancel();
-			}
-		});
-
-		return box;
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +79,14 @@ public class GameActivity extends Activity {
 		txtScore = (TextView) findViewById(R.id.textViewScore);
 		timer = new ProgressBarCompteur();
 
+		// On récupère la base de données
+		DevOpenHelper helper = new DaoMaster.DevOpenHelper(GameActivity.this,
+				"trivia-db", null);
+		db = helper.getWritableDatabase();
+		daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		scoreDao = daoSession.getScoreDao();
+
 		// On affiche le score
 		txtScore.setText(Integer.toString(SingletonScore.getInstance()
 				.getScore()));
@@ -134,18 +95,8 @@ public class GameActivity extends Activity {
 		// On cache la progressBar de transition
 		progressTransition.setVisibility(View.INVISIBLE);
 
-		// On récupère la base de données
-		DevOpenHelper helper = new DaoMaster.DevOpenHelper(GameActivity.this,
-				"trivia-db", null);
-		db = helper.getWritableDatabase();
-		daoMaster = new DaoMaster(db);
-		daoSession = daoMaster.newSession();
-
-		// On récupère toutes les questions
-		questionDao = daoSession.getQuestionDao();
-		QueryBuilder qb = questionDao.queryBuilder();
-		listAllQuestion = qb.list();
-
+		// Récupération de la liste de toutes les questions
+		SingletonQuestion.getInstance(GameActivity.this);
 
 		question = newQuestion();
 
@@ -155,13 +106,18 @@ public class GameActivity extends Activity {
 		// On écoute le bouton valider la réponse
 		validate.setOnClickListener(new View.OnClickListener() {
 
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see android.view.View.OnClickListener#onClick(android.view.View)
+			 */
 			@Override
 			public void onClick(View v) {
 				String answer = question.getAnswer();
 				String answerPlayer = editAnswer.getText().toString();
 
 				// Si la réponse est correcte..
-				if (answer.equals(answerPlayer)) {
+				if (answer.equals(answerPlayer.toUpperCase())) {
 					// On incrémente le score
 					SingletonScore.getInstance().scoreIncrement();
 					// On affiche un mesage
@@ -183,19 +139,105 @@ public class GameActivity extends Activity {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onStop()
+	 */
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onBackPressed()
+	 */
 	// Tuer l'activité lors de l'appuie sur le bouton de retour
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		timer.cancel(true);
 		this.finish();
+		Intent intentHome = new Intent(GameActivity.this, HomeActivity.class);
+		startActivity(intentHome);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game, menu);
 		return true;
+	}
+
+	// Création de la dialog en cas de perte
+	@Override
+	protected Dialog onCreateDialog(int score) {
+		final Dialog box;
+		box = new Dialog(this);
+		box.setTitle("Vous avez perdu !");
+		box.setContentView(R.layout.dialog_restart);
+
+		scoreFinal = (TextView) box.findViewById(R.id.textViewScoreFinal);
+		quitter = (Button) box.findViewById(R.id.buttonLeave);
+		rejouer = (Button) box.findViewById(R.id.buttonReplay);
+
+		scoreFinal.setText(Integer.toString(SingletonScore.getInstance()
+				.getScore()));
+
+		quitter.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// On réinitialise la liste des questions
+				SingletonQuestion.getInstance(GameActivity.this)
+						.InitialiserListe(GameActivity.this);
+				SingletonScore.getInstance().scoreAZero();
+				Intent intentHome = new Intent(GameActivity.this,
+						HomeActivity.class);
+				startActivity(intentHome);
+				box.cancel();
+				finish();
+			}
+		});
+
+		rejouer.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// On réinitialise la liste des questions
+				SingletonQuestion.getInstance(GameActivity.this)
+						.InitialiserListe(GameActivity.this);
+				// On réinitialise le score
+				SingletonScore.getInstance().scoreAZero();
+				recreate();
+				box.cancel();
+			}
+		});
+
+		return box;
+	}
+
+	/*
+	 * Récupération d'une nouvelle question
+	 */
+	public Question newQuestion() {
+		// Création de la liste des questions de la partie
+		Random rand = new Random();
+		int max = SingletonQuestion.getInstance(GameActivity.this)
+				.getListQuestion().size();
+		int nombreAleatoire = rand.nextInt(max);
+		question = SingletonQuestion.getInstance(GameActivity.this)
+				.getListQuestion().get(nombreAleatoire);
+		SingletonQuestion.getInstance(GameActivity.this).getListQuestion()
+				.remove(nombreAleatoire);
+		return question;
 	}
 
 	// classe asynchrone qui affiche la progressbar chronomètre
@@ -210,6 +252,10 @@ public class GameActivity extends Activity {
 		};
 
 		// appelé pendant le thread, modifie l'UI principale
+		/*
+		 * (non-Javadoc)
+		 * @see android.os.AsyncTask#onProgressUpdate(java.lang.Object[])
+		 */
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			super.onProgressUpdate(values);
@@ -238,18 +284,29 @@ public class GameActivity extends Activity {
 			// Enregistrement du score dans la base de données
 			scoreDao = daoSession.getScoreDao();
 			String idUser = settings.getString("idUser", "null");
+			int score = SingletonScore.getInstance().getScore();
 			if (idUser.equals("null") == false) {
-			Score leScore = new Score(null, SingletonScore.getInstance()
-					.getScore(), Integer.parseInt(idUser));
-			scoreDao.insert(leScore);
+				// On insère dans la base de donnée locale
+				Score leScore = new Score(null, SingletonScore.getInstance()
+						.getScore(), Integer.parseInt(idUser));
+				scoreDao.insert(leScore);
+
+				// On insère le score dans la base de données distante
+				NetworkRequest app = (NetworkRequest) getApplication();
+				new ScoreRequest(app, idUser, Integer.toString(score));
 			}
 
 			// Le joueur n'a pas réussi à répondre dans le temps imparti
 			showDialog(SingletonScore.getInstance().getScore());
 
+			// On affiche la bonne réponse
+			Toast.makeText(GameActivity.this,
+					"La bonne réponse était : " + question.getAnswer(),
+					Toast.LENGTH_SHORT).show();
+
 		}
 
-		// executer si la tache ne fini pas ( à l'appel de cancel)
+		// executer si la tache ne fini pas (à l'appel de cancel)
 		@Override
 		protected void onCancelled() {
 			super.onCancelled();
@@ -258,7 +315,7 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	// classe asynchrone qui affiche la progressbar chronomètre
+	// classe asynchrone qui gère la transition entre les questions
 	private class ProgressBarTransition extends AsyncTask<Void, Void, Void> {
 
 		// appelé avant
@@ -288,13 +345,4 @@ public class GameActivity extends Activity {
 
 	}
 
-	public Question newQuestion() {
-		// Création de la liste des questions de la partie
-		Random rand = new Random();
-		int max = listAllQuestion.size();
-		int nombreAleatoire = rand.nextInt(max);
-		question = listAllQuestion.get(nombreAleatoire);
-		listAllQuestion.remove(nombreAleatoire);
-		return question;
-	}
 }

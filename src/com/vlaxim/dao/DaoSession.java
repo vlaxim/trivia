@@ -26,52 +26,52 @@ import com.vlaxim.dao.ScoreDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
-    private final DaoConfig userDaoConfig;
-    private final DaoConfig questionDaoConfig;
-    private final DaoConfig scoreDaoConfig;
+	private final DaoConfig userDaoConfig;
+	private final DaoConfig questionDaoConfig;
+	private final DaoConfig scoreDaoConfig;
 
-    private final UserDao userDao;
-    private final QuestionDao questionDao;
-    private final ScoreDao scoreDao;
+	private final UserDao userDao;
+	private final QuestionDao questionDao;
+	private final ScoreDao scoreDao;
 
-    public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
-            daoConfigMap) {
-        super(db);
+	public DaoSession(SQLiteDatabase db, IdentityScopeType type,
+			Map<Class<? extends AbstractDao<?, ?>>, DaoConfig> daoConfigMap) {
+		super(db);
 
-        userDaoConfig = daoConfigMap.get(UserDao.class).clone();
-        userDaoConfig.initIdentityScope(type);
+		userDaoConfig = daoConfigMap.get(UserDao.class).clone();
+		userDaoConfig.initIdentityScope(type);
 
-        questionDaoConfig = daoConfigMap.get(QuestionDao.class).clone();
-        questionDaoConfig.initIdentityScope(type);
+		questionDaoConfig = daoConfigMap.get(QuestionDao.class).clone();
+		questionDaoConfig.initIdentityScope(type);
 
-        scoreDaoConfig = daoConfigMap.get(ScoreDao.class).clone();
-        scoreDaoConfig.initIdentityScope(type);
+		scoreDaoConfig = daoConfigMap.get(ScoreDao.class).clone();
+		scoreDaoConfig.initIdentityScope(type);
 
-        userDao = new UserDao(userDaoConfig, this);
-        questionDao = new QuestionDao(questionDaoConfig, this);
-        scoreDao = new ScoreDao(scoreDaoConfig, this);
+		userDao = new UserDao(userDaoConfig, this);
+		questionDao = new QuestionDao(questionDaoConfig, this);
+		scoreDao = new ScoreDao(scoreDaoConfig, this);
 
-        registerDao(User.class, userDao);
-        registerDao(Question.class, questionDao);
-        registerDao(Score.class, scoreDao);
-    }
-    
-    public void clear() {
-        userDaoConfig.getIdentityScope().clear();
-        questionDaoConfig.getIdentityScope().clear();
-        scoreDaoConfig.getIdentityScope().clear();
-    }
+		registerDao(User.class, userDao);
+		registerDao(Question.class, questionDao);
+		registerDao(Score.class, scoreDao);
+	}
 
-    public UserDao getUserDao() {
-        return userDao;
-    }
+	public void clear() {
+		userDaoConfig.getIdentityScope().clear();
+		questionDaoConfig.getIdentityScope().clear();
+		scoreDaoConfig.getIdentityScope().clear();
+	}
 
-    public QuestionDao getQuestionDao() {
-        return questionDao;
-    }
+	public UserDao getUserDao() {
+		return userDao;
+	}
 
-    public ScoreDao getScoreDao() {
-        return scoreDao;
-    }
+	public QuestionDao getQuestionDao() {
+		return questionDao;
+	}
+
+	public ScoreDao getScoreDao() {
+		return scoreDao;
+	}
 
 }
