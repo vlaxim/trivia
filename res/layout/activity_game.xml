@@ -52,6 +52,8 @@
         android:layout_alignRight="@+id/buttonValidate"
         android:layout_below="@+id/textViewQuestion"
         android:layout_marginTop="60dp"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionDone"
         android:ems="10" >
 
         <requestFocus />
