@@ -45,7 +45,8 @@
         </activity>
         <activity
             android:name="com.vlaxim.trivia.HomeActivity"
-            android:label="@string/title_activity_home"
+            android:label="Menu"
+            android:icon="@android:color/transparent"
             android:screenOrientation="portrait" >
         </activity>
         <activity
